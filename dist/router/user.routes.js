@@ -24,3 +24,6 @@ exports.userRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).json({ error: 'Ocurrio un error al obtener los usuarios' });
     }
 }));
+exports.userRouter.get('/auth', (req, res) => {
+    res.send('Este es un mensaje para ver si funciona');
+});
