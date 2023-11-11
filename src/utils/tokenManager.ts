@@ -10,7 +10,7 @@ export interface ITokenVerificationErrors {
 }
 
 export const generateToken = (id: string): { token: string, expiresIn: number } | { error: string } => {
-  const expiresIn = 60
+  const expiresIn = 60*5
 
   try {
     const token = Jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn })
