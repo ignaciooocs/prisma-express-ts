@@ -18,7 +18,7 @@ export const requireToken = (req: CustomRequest, res: Response, next: NextFuncti
       req.userId = decoded.id 
       next()
     } else {
-      res.status(401).json({ error: 'Debes iniciar session' })
+      res.status(401).json({ error: 'Debes iniciar sesión' })
     }
   } catch (error) {
     if (error instanceof Error) {

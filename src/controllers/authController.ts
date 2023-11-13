@@ -55,14 +55,27 @@ export function UserProfile (req: CustomRequest, res: Response) {
 
 export function RefreshToken (req: CustomRequest, res: Response): void {
   try {
-    const { token } = generateToken(req.userId!) as { token: string }
+    const { token, expiresIn } = generateToken(req.userId!) as { token: string, expiresIn: number }
 
-    res.status(201).json({ refresh: token })
+    res.status(201).json({ refresh: token, expiresIn })
   } catch (error) {
     if (error instanceof Error) {
       res
         .status(401)
-        .send({ error: tokenVerificatiosErrors[error.message] })
+        .json({ error: tokenVerificatiosErrors[error.message] })
     }
   }
+}
+
+export const Logout = (_req: Request, res: Response) => {
+  res.clearCookie('refreshToken')
+
+  // const expiresIn = 60
+  // res.cookie('refreshToken', 'refreshToken', {
+  //   httpOnly: true,
+  //   secure: true,
+  //   expires: new Date(Date.now() + expiresIn * 1000),
+  //   sameSite: 'none'
+  // })
+  res.json({ message: 'sesión cerrada' })
 }

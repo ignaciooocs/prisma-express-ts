@@ -9,10 +9,14 @@ export async function getAllNotes (req: CustomRequest, res: Response) {
         userId: req.userId
       }
     })
+    notes.reverse()
     res.json({ notes })
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: 'Error de servidor' })
+    if (error instanceof Error) {
+      res.json({ error })
+    } else {
+      res.status(500).json({ error: 'Error de servidor' })
+    }
   }
 }
 
@@ -42,9 +46,14 @@ export async function createNote (req: CustomRequest, res: Response) {
         }
       }
     })
-    res.json({ createNote })
+    res.status(201).json({ createNote })
   } catch (error) {
-    res.status(500).json({ error: 'Error de servidor' })
+    if (error instanceof Error) {
+      console.log(error)
+      res.json({ error: error.message })
+    } else {
+      res.status(500).json({ error: 'Error de servidor' })
+    }
   }
 }
 

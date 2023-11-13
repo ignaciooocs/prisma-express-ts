@@ -10,7 +10,7 @@ export interface ITokenVerificationErrors {
 }
 
 export const generateToken = (id: string): { token: string, expiresIn: number } | { error: string } => {
-  const expiresIn = 60*5
+  const expiresIn = 60
 
   try {
     const token = Jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn })
@@ -27,8 +27,8 @@ export const generateRefreshToken = (id: string, res: Response): void => {
     const refreshToken = Jwt.sign({ id }, process.env.REFRESH_SECRET!, { expiresIn })
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       expires: new Date(Date.now() + expiresIn * 1000),
       sameSite: 'none'
     })

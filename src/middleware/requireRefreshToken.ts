@@ -12,13 +12,13 @@ export const requireRefreshToken = (req: CustomRequest, res: Response, next: Nex
       req.userId = decoded.id 
       next()
     } else {
-      res.status(401).json({ error: 'No existe el refresh token' })
+      res.status(401).json({ error: 'Debes iniciar sesión' })
     }
   } catch (error) {
     if (error instanceof Error) {
       res
         .status(401)
-        .send({ error: tokenVerificatiosErrors[error.message] })
+        .json({ error: tokenVerificatiosErrors[error.message] })
       }
   }
 }
