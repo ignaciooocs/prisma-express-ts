@@ -9,7 +9,7 @@ import { notesRouter } from './router/notes.routes'
 const app = express()
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.ORIGIN1,
   credentials: true
 }))
 
