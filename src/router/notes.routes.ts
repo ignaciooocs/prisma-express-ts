@@ -5,31 +5,31 @@ import { validationResults, validatiosNotes } from '../middleware/validationResu
 
 export const notesRouter = Router()
 
-notesRouter.get('/', 
-  requireToken, 
+notesRouter.get('/:page',
+  requireToken,
   getAllNotes
 )
 
-notesRouter.get('/:id', 
-  requireToken, 
+notesRouter.get('/one/:id',
+  requireToken,
   getOneNote
 )
 
-notesRouter.post('/', 
-  requireToken,  
-  validatiosNotes, 
-  validationResults, 
+notesRouter.post('/',
+  requireToken,
+  validatiosNotes,
+  validationResults,
   createNote
 )
 
-notesRouter.put('/:id', 
-  requireToken, 
+notesRouter.put('/one/:id',
+  requireToken,
   validatiosNotes,
   validationResults,
   updateNote
 )
 
-notesRouter.delete('/:id', 
-  requireToken, 
+notesRouter.delete('/one/:id',
+  requireToken,
   deleteNote
 )

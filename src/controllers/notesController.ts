@@ -2,14 +2,19 @@ import { Response } from 'express'
 import { prisma } from '../database'
 import { CustomRequest } from '../middleware/requireToken'
 
-export async function getAllNotes (req: CustomRequest, res: Response) {
+export async function getAllNotes(req: CustomRequest, res: Response) {
+  const page = Number(req.params.page)
   try {
     const notes = await prisma.note.findMany({
       where: {
         userId: req.userId
-      }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      skip: (page - 1) * 10,
+      take: 10
     })
-    notes.reverse()
     res.json({ notes })
   } catch (error) {
     if (error instanceof Error) {
@@ -20,7 +25,7 @@ export async function getAllNotes (req: CustomRequest, res: Response) {
   }
 }
 
-export async function getOneNote (req: CustomRequest, res: Response) {
+export async function getOneNote(req: CustomRequest, res: Response) {
   try {
     const note = await prisma.note.findUnique({
       where: {
@@ -33,7 +38,7 @@ export async function getOneNote (req: CustomRequest, res: Response) {
   }
 }
 
-export async function createNote (req: CustomRequest, res: Response) {
+export async function createNote(req: CustomRequest, res: Response) {
   try {
     const createNote = await prisma.note.create({
       data: {
@@ -57,7 +62,7 @@ export async function createNote (req: CustomRequest, res: Response) {
   }
 }
 
-export async function deleteNote (req: CustomRequest, res: Response) {
+export async function deleteNote(req: CustomRequest, res: Response) {
   try {
     const deleteNote = await prisma.note.delete({
       where: {
@@ -70,7 +75,7 @@ export async function deleteNote (req: CustomRequest, res: Response) {
   }
 }
 
-export async function updateNote (req: CustomRequest, res: Response) {
+export async function updateNote(req: CustomRequest, res: Response) {
   try {
     const updateNote = await prisma.note.update({
       where: {

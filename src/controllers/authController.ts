@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import { generateRefreshToken, generateToken, tokenVerificatiosErrors } from '../utils/tokenManager'
 import { CustomRequest } from '../middleware/requireToken'
 
-export async function SignIn (req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function SignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
   const body = req.body
 
   try {
@@ -27,7 +27,7 @@ export async function SignIn (req: Request, res: Response, next: NextFunction): 
   }
 }
 
-export async function SignUp (req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function SignUp(req: Request, res: Response, next: NextFunction): Promise<void> {
   const body = req.body
   try {
     const salt = await bcrypt.genSalt(10)
@@ -49,11 +49,11 @@ export async function SignUp (req: Request, res: Response, next: NextFunction): 
   }
 }
 
-export function UserProfile (req: CustomRequest, res: Response) {
+export function UserProfile(req: CustomRequest, res: Response) {
   res.json({ profile: req.userId })
 }
 
-export function RefreshToken (req: CustomRequest, res: Response): void {
+export function RefreshToken(req: CustomRequest, res: Response): void {
   try {
     const { token, expiresIn } = generateToken(req.userId!) as { token: string, expiresIn: number }
 
@@ -69,13 +69,5 @@ export function RefreshToken (req: CustomRequest, res: Response): void {
 
 export const Logout = (_req: Request, res: Response) => {
   res.clearCookie('refreshToken')
-
-  // const expiresIn = 60
-  // res.cookie('refreshToken', 'refreshToken', {
-  //   httpOnly: true,
-  //   secure: true,
-  //   expires: new Date(Date.now() + expiresIn * 1000),
-  //   sameSite: 'none'
-  // })
   res.json({ message: 'sesión cerrada' })
 }
